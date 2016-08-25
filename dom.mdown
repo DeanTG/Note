@@ -1,0 +1,79 @@
+事件处理程序：
+1，HTML事件处理，2，DOM事件处理
+DOM0：鼠标事件等。
+DOM2：定义两个方法，用于处理指定和删除事件处理程序的操作addEventListener(),removeEventListener()，IE相对应的是attachEvent()
+和detachEvent()
+
+事件对象：在触发DOM上的事件时都会产生一个对象。
+事件对象event：
+type属性，用于获取事件类型；
+target属性，用于获取事件目标；
+stopPropagation()方法，阻止事件冒泡；
+preventDefault()方法，阻止事件默认行为；
+
+IE中的事件对象window.event：
+type属性；
+srcElement属性，事件目标；
+cancelBubble属性，祖师事件冒泡，布尔值，true为阻止；
+returnValue属性，阻止事件默认行为，布尔值，false为阻止；
+
+
+事件流，页面接受事件的顺序。
+IE事件冒泡流：事件最开始由最具体的元素接受，然后逐级向上传播到最不具体的那个节点。
+
+事件捕获流：不太具体节点更早接收到事件，最具体的节点最后接受事件。
+
+
+
+
+跨浏览器事件处理程序的封装：//能力检测
+var eventhandle={
+    //添加事件
+    addEventHandle: function(element,type,fnHandle){
+        if(element.addEventListener){
+            element.addEventListener(type,fnHandle,false);
+        }else if(element.attachEvent){
+            element.attachEvent('on'+type,fnHandle);
+        }else{
+            element['on'+type]=fnHandle;
+        }
+    },
+    //移除事件
+    removeEventHandle: function(element,type,fnHandle){
+        if(element.removeEventListener){
+            element.removeEventListener(type,fnHandle,false);
+        }else if(event.detachEvent){
+            event.detachEvent('on'+type,fnHandle);
+        }else{
+            element['on'+type]=null;
+        }
+    },
+    //获取事件对象
+    getEvent: function(event){
+        return event ? event : window.event;
+    },
+    //获取事件类型
+    getType: function(event){
+        return event.type
+    },
+    //获取事件目标
+    getElement: function(event){
+        return event.target || event.srcElement;
+    },
+    //阻止事件默认行为
+    preventDefault: function(event){
+        if(event.preventDefault){
+            event.preventDefault();
+        }else{
+            event.returnValue=false;
+        }
+    },
+    //阻止事件冒泡
+    stopPropagation: function(event){
+        if(event.stopPropagation){
+            event.stopPropagation();
+        }else{
+            event.cancelBubble=true;
+        }
+    }
+}

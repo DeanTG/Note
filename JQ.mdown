@@ -1,0 +1,58 @@
+任何库与框架设计的第一个要点就是解决命名空间与变量污染的问题。jQuery就是利用了JavaScript函数作用域的特性，采用立即调用表达式包裹了自身的方法来解决这个问题。
+
+表单禁用属性
+attr("disabled","true");
+
+append()可以追加“执行函数”
+
+each()方法遍历index选择
+$("span").each(function (index) {
+                if (index == 1) {
+                    $(this).attr("class", "red");
+                }
+            });
+
+bind live on几个时间绑定的区别
+bind可以同时绑定多个事件
+$("#btntest").bind("click mouseout", function () {
+                    $(this).attr("disabled", "true");
+                })点击和鼠标移出后执行
+
+live()方法可以绑定动态元素，即使用代码添加的元素事件
+
+unbind()解绑事件
+
+hover（function [in]， function [out]）
+
+
+$("span").each(function (index) {
+                    switch (index) {
+                        case 0:
+                            $(".red").fadeTo(1000,0.5);
+                            break;
+                        case 1:
+                            $(".orange").fadeTo(1000,0.5);
+                            break;
+                        case 2:
+                            $(".blue").fadeTo(1000,0.5);
+                            break;
+                    }
+                });
+
+
+
+trigger()
+自定义时间后，手动触发事件
+
+animate运动函数
+$("span").animate({
+                    left: "+=100px"
+                }, 3000, function () {
+                    $("span").animate({
+                        height: '+=30px',
+                        width: '+=30px'
+                    }, 3000, function () {
+                        $("#tip").html("执行完成!");
+                    });
+                });
+

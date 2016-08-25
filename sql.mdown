@@ -1,0 +1,235 @@
+# sql:结构型查询语言
+> 默认端口号：3306; 超级用户：root  
+> 查询程序获得的结果被存放在一个结果集中
+
+* dml:数据操作语言，sql中处理数据等操作统称为数据操作语言（使用者角度）
+* ddl:数据定义语言，用于定义和管理sql数据库中的所有对象的语言（建设者角度，建库、建表、建视图）
+* dcl:数据控制语言，用来授予或回收当问数据库的某种特权，并控制数据库操作的事务发生的事件及效果，对数据库实行监督。
+
+> ddl语句
+
+* CREATE DATABASE - 创建新数据库
+* ALTER DATABASE - 修改数据库
+* CREATE TABLE - 创建新表
+* ALTER TABLE - 变更（改变）数据库表
+* DROP TABLE - 删除表
+* CREATE INDEX - 创建索引（搜索键）
+* DROP INDEX - 删除索引
+
+## 数据库操作
+* 创建数据库
+
+		CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] dbName [DEFAULT] CHARACTER SET [=] charsetName
+
+* 修改数据库编码
+
+		ALTER {DATABASE | SCHEMA} dbName [DEFAULT] CHARACTER SET [=] charsetName
+		
+* 删除数据库
+
+		DROP {DATABASE | SCHEMA} [IF EXISTS] dbName 
+
+
+## 数据类型
+* 整型：TINYINT、 SMALLINT、 INT、 MEDIUMINT、 INT、 BIGINT
+* 浮点型：FLOAT、 DOUBLE
+* 日期时间型：YEAR、 TIME、 DATE、 DATETIME、 TIMESTAMP
+* 字符型：CHAR、VARCHAR、TINYTEXT、TEXT、MEDIUNMTEXT、LONGTEXT、ENUM、SET
+
+(无符号类型： UNSIGNED)  
+(字段是否可以为空： NULL,NOT NULL)  
+(自动编号属性：AUTO_INCREMENT；须配合主键使用；值可设为NULL或DEFAULT)
+
+
+## 约束
+* 约束保证数据的完整性和一致性
+* 约束分为表级约束和列级约束（只针对某一个字段约束）
+
+> 主键约束：PRIMARY KEY
+
+* 每张数据表职能存在一个主键
+* 主键保证纪录的唯一性
+* 主键自动为NOT NULL
+
+> 唯一约束：UNIQUE KEY
+
+* 唯一约束可以保证纪录的唯一性
+* 唯一约束的字段可以NULL
+* 每张数据表可以存在多个唯一约束
+
+> 默认约束：DEFAULT
+
+* 当插入记录时，如果没有明确为字段赋值，则自动赋予默认值
+
+> 非空约束：NULL、 NOT NUL  
+
+> 外键约束：FOREIGN KEY
+
+保持数据一致性、完整性。  
+实现一对一或一对多关系。  
+
+外键约束的要求：
+
+* 父表和子表（具有外键列的表）必须使用相同的存储引擎，而且禁止使用临时表
+* 数据表的存储引擎职能为InnoDB
+	* 修改配置文件的存储引擎default-storage-engine = INNODB
+* 外键列（加过FOREIGN KEY的列）和参照列必须具有相似的数据类型。其中数字的长度或是否有符号位必须在相同；而字符的长度则可以不同
+* 外键列和参照列必须创建索引。如果外键列不存在索引的话，mysql将自动创建索引
+
+
+## 数据表
+### 创建数据表:
+
+		CREATA TABLE [IF NOT EXISTS] tableName(columnName dataType,...)
+		
+		
+### 查看数据表:
+
+		SHOW TABLES [FROM dbName] [LIKE 'pattern' | WHERE expression]
+		
+* 查看数据表结构：
+
+		SHOW COLUMNS FROM tblName
+		
+
+### 修改数据表：
+* 添加单列:
+		
+		ALTER TABLE tblName ADD [COLUMN] colName columnDefinition [FIRST | AFTER colName]
+		
+* 添加多列:
+		
+		ALTER TABLE tblName ADD [COLUMN] (colName columnDefinition,...)
+		
+* 删除列:
+		
+		ALTER TABLE tblName DROP [COLUMN] colName ,DROP [COLUMN] colName 
+
+* 添加/删除主键约束:
+
+		ALTER TABLE tblName ADD [CONSTRAINT [symbol]] PRIMARY KEY [indexType] (indexColName,....)
+		
+		ALTER TABLE tblName DROP PRIMARY KEY
+		
+* 添加/删除默认约束:
+
+		ALTER TABLE tblName ALTER colName {SET DEFAULT VAL | DROP DEFAULT}
+
+
+
+
+### 记录的操作：
+> 增：
+
+* INSERT:
+
+		INSERT [INTO] tblName[(colName,..)] {VALUES | VALUE} ({EXPR | DEFAULT})
+		
+* INSERT SET (可以使用子查询):
+
+		INSERT [INTO] tblName SET colName={expr | DEFAULT},....
+		
+* INSERT SELECT (将查询结果插入到指定数据表):
+
+		INSERT [INTO] tblName [(colName,..)] SELECT....
+		
+> 改：
+
+* 单表更新：
+		
+		UPDATE [LOW_PRIORITY] [IGNORE] tableReference SET colName={expr1 | DEFAULT},....[WHERE whereCondition]
+		
+> 删：
+
+* 单表删除：
+		
+		DELETE FROM tblName [WHERE whereCondition]
+		
+> 查：
+
+		SELECT select_expr [
+			FROM table_references
+			[WHERE where_condition]
+			[GROUP BY {colName | position} [ASC | DESC],...]
+			[HAVING where_condition]
+			[ORDER BY {colName | expr | position} [ASC | DESC],...]
+			[LIMIT {[offset] row_count | row_count OFFSET offset}]
+		]
+
+#### 查询表达式  
+每一个表达式表示想要的的一列，必须有至少一个。  
+多个列之间以英文逗号分割。  
+星号表示所有列。tblName.*可以表示命名表的所有列。  
+查询表达式可以使用［AS］为其赋予别名。别名可用于GROUP BY、 ORDER BY、HAVING子句  
+
+* 条件表达式：WHERE  
+	模糊查询 WHERE xx LIKE 'xx％'; % 通配任意字符 _ 通配单一字符
+	AND OR运算符
+
+* 查询结果分组：GROUP BY
+
+		[GROUP BY {colName | position} [ASC | DESC],...]
+	
+* 分组条件：HAVING (条件必须为聚合函数，或条件字段必须在having结果集里)
+
+		[HAVING where_condition]
+* 排序：ORDER BY   
+	
+		[ORDER BY {colName | expr | position} [ASC | DESC],...]
+
+* LIMIT
+
+		[LIMIT {[offset] row_count | row_count OFFSET offset}]
+
+### 子查询（subquery）
+* 使用比较运算符的字查询 （ANY、 SOME、 ALL关键字）
+* 使用IN、 NOT IN的子查询
+* 使用EXISTS、 NOT EXISTS的子查询
+
+### 连接
+* 多表连接
+
+		table_reference {[INNER | CROSS] JOIN | {LEFT | RIGHT} [OUTER] JOIN} table_reference ON conditional_expr (可以给连接的表赋予别名)
+
+* 自身连接
+
+		SELECT s.id,p.id FROM tab AS s LEFT JOIN tab AS p ON s.id = p.id
+		
+### 多表更新
+* INSERT... SELECT..
+* CREAATE... SELECT..
+
+### 多表删除
+
+		DELETE tbl_name frome table_references [WHERE where_condition]
+
+
+## 运算符和函数
+* 字符函数
+	* CONCAT()、 CONCAT_WS()、 FORMAT()、 LOWER()、 UPPER()、 LEFT()、 RIGHT()、 LENGTH()、 LTRIM()、 RTRIM()、 TRIM([LEADING | TRAILING | BOTH])、SUBSTRING()、 [NOT] LIKE [%任意个字符，_任意一个字符]、 REPLACE()
+
+* 数值运算函数
+	* CEIL()、 FLOOR()、 DIV、 MOD、 POWER()、 ROUND()、 TRUNCATE()
+
+* 比较运算符
+	* [NOT] BETWEEN...AND...
+	* [NOT] IN()
+	* IS [NOT] NULL
+
+* 日期时间函数
+	* NOW()、 CURDATE()、 CURTIME()、 DATE_ADD()、 DATEDIFF()、 DATE_FORMAT()
+	
+* 聚合函数
+	* AVG()、 COUNT()、 MAX()、 MIN()、 SUM()
+	
+* 加密函数
+	* MD5()、 PASSWORD()
+	
+###自定义函数
+
+## 存储过程
+> 存储过程是SQL语句和控制语句的预编译集合，以一个名称存储并作为一个单元处理
+
+		CREATE [DEFINER = {USER | CURRENT_USER}] PROCEDURE sp_name ([proc_pararmeter[,...]]) [characteristic...] routine_body
+		
+		proc_parameter:[IN | OUT | INOUT] param_name type

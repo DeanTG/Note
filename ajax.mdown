@@ -1,0 +1,82 @@
+#Ajax
+异步的javascript和XML
+
+##XMLHttpRequest对象：
+> 通过XMLHttpRequest对象，客户端和服务器端实现异步数据交换
+
+* 创建XMLHttpRequest对象
+
+		var request;
+		if ( window.XMLHttpRequest ){
+			request = new XMLHttpRequest();
+		}else{
+			request = new ActiveXObject("Microsoft.XMLHTTP");//IE6
+		}
+
+## http请求：
+* http是无状态协议(不建立持久的连接，服务端不保留连接的相关信息)。
+* http请求组成部分：
+	* http请求的方法或动作，如get和post请求；
+	* 正在请求的url；
+	* 请求头，包含客户端环境信息、身份验证信息等；
+	* 请求体，即请求正文，请求正文中包含客户提交的查询字符串信息、表单信息等。
+* 请求方法：
+	* GET: 一般用于信息的获取； 使用url传递参数； 对所发信息的数量有限制，一般在2000字符；
+	* POST: 一般用于修改服务器上的资源； 对所发信息的数量无限制。
+
+## http响应：
+* 状态码
+* 响应头，包含各种信息，如服务器类型、日期时间、内容类型、和长度
+* 响应体，即响应正文
+
+## XMLHttpRequest 发送请求：
+* open(method, url, async);
+* setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+* send(string);
+
+## XMLHttpRequest 取得响应：
+* responseText: 获得字符串形势的响应数据
+* responseXML:	获得XML形势的响应数据
+* status和statusText: 以数字和文本形式返回http状态码
+* getAllResponseHeader():	获得所有的响应报头
+* getResponseHeader():	查询响应中的某个字段的值
+
+### readyState属性：
+* 0:请求未出世话，open还没有调用
+* 1:服务器已建立，open已经调用
+* 2:请求已接收，也就是接收到头信息
+* 3:请求处理中，也就是接收到响应主体
+* 4:请求已完成，且响应已就绪，也就是响应完成
+
+		var request = new XMLHttpRequest();
+		request.open(method,url,true);
+		setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		request.send();
+		request.onreadystatechange = function(){
+			if (request.readyState === 4 && request.status === 200) {
+				
+			}
+		}
+		
+## JSON:
+> JSON解析：eval()、JSON.parse()
+
+## 跨域：
+> 当协议、子域名、主域名、端口号中任意一个不同时，称作不同域，不同域之间相互请求资源，就算作跨域
+
+### 处理跨域请求：
+* 代理
+* JSONP (GET)
+
+		$.ajax({
+			dataType: "jsonp",
+			jsonp: "xxx"
+		})
+* XHR2	(服务端)
+
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Methods: POST,GET");
+
+
+
+

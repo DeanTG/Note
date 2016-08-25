@@ -1,0 +1,217 @@
+
+> php作用：
+
+* PHP 代码在服务器上执行，而结果以纯文本返回浏览器。
+* PHP 能够生成动态页面内容
+* PHP 能够创建、打开、读取、写入、删除以及关闭服务器上的文件
+* PHP 能够接收表单数据
+* PHP 能够发送并取回 cookies
+* PHP 能够添加、删除、修改数据库中的数据
+* PHP 能够限制用户访问网站中的某些页面
+* PHP 能够对数据进行加密
+* 通过 PHP可以不受限于只输出 HTML，还能够输出图像、PDF 文件、甚至 Flash 影片，也可以输出任何文本，比如 XHTML 和 XML。
+
+> php文件执行顺序: 语法分析－>编译－>运行－>展示结果
+	
+## 变量：
+> 定义：$  
+> 数据类型：在PHP中，支持8种原始类型，其中包括四种标量类型（字符串、整型、浮点型、布尔）、两种复合类型（数组、对象）和两种特殊类型（资源、null）。
+
+* 检测和设置变量类型: gettype() settype(),输出类型相应的字符串名。
+* 变量检测: isset(),返回boolean。
+* 变量打印: echo print_r var_dump（）。
+* 引用赋值: &
+* 变量销毁: unset(),不影响引用赋值的值。
+* 是否为空：empty()
+* 可变变量: 
+
+## 超级全局变量：
+		$_GET、$_POST、$REQUEST、$_SESSION、$_COOKIE $_FILES、$_ENV(服务器操作系统的环境变量) $_SERVER(获取网站域名、当前访问脚本、客户ip(REMOTE_ADDR、HTTP_XFORWARD_FOR))、$GLOBALS
+
+## 常量：
+> 定义：define(name,value);
+
+判断常量是否被定义：defined()
+
+* 命名规范同变量，习惯上实用大写不加$
+* 声明后无法修改值，无法销毁，无法重新声明
+* 只可以保存标量类型的数据
+* 全局有效
+
+### 字符串：
+> 定义：单引号、双引号、heredoc语法结构、nowdoc（解决字符串很长问题）
+
+当双引号中包含变量时，变量会与双引号中的内容连接在一起；当单引号中包含变量时，变量会被当做字符串输出。  
+(utf-8 一个汉字占3个字节)
+
+> 操作
+
+* 字符串连接: "."
+* 去除字符串空格： trim() ltrim() rtrim()
+* 获取字符串长度： strlen() mb_strlen($str,'utf-8')
+* 截取字符串：substr($str,start,len[option]) mb_substr()
+* 字符串查找：strpos($str,$x)
+* 字符串替换：str_replace()
+* 格式化字符串：sprintf(格式，string) 格式：'%01.nf'
+* 字符串合并：implode(分隔符[可选], 数组)
+* 字符串分割：explode(分隔符[可选], 字符串)
+* 字符串转义：addslashes()
+
+### 数组：
+> 定义：array()
+> 索引数组、关联数组
+
+* 赋值：array('value')、$arr[index]='value'、arr('0'=>'value')
+* 删除：unset($arr[index])
+* 遍历数组：for循环、foreach循环: foreach($arr as $key=>$value){}
+* 打印数组：print_r；
+* 索引数组长度：count($arr)
+* 游标操作：current()、next()、prev()、end()、reset()
+* 操作
+	array_key_exists(key,$arr)、in_array(value,$arr)
+键值可以是整型数字或者字符串，浮点数的键值自动转换为整数。
+
+
+
+### 运算符、操作符：
+
+* 引用操作符：&
+* 逻辑操作符and or 的优先级小于&& || 
+* 执行操作符：\` `
+* 类型操作符：instanceof
+	
+### 结构语句：
+	
+
+
+
+
+
+### 函数：
+> 定义：function name(){}
+
+* 函数检查：function_exists()
+* 声明全局变量: global 
+* 超级全局变量
+
+### 时间：
+* 获取时间戳: time() 、microtime()
+* 时间戳格式化: date('Y-m-d h:i:s',$time[optional]) 、gmdate()
+* 解析检测时间: mktime(时,分,秒,月,日,年) 、strtotime('now +1 day') 、 checkdate(月,日,年)
+
+
+
+### 类与对象：
+> 定义：class Foo {}
+
+#### 属性和方法：
+在类中定义的变量称之为属性，通常属性跟数据库中的字段有一定的关联，因此也可以称作“字段”。属性声明是由关键字 public，protected 或者 private 开头，后面跟一个普通的变量声明来组成。属性的变量可以设置初始化的默认值，默认值必须是常量。受保护的属性与私有属性不允许外部调用，在类的成员方法内部是可以调用的。
+
+#### 调用：
+一般通过->对象操作符来访问对象的属性或者方法，对于静态属性则使用::双冒号进行访问。当在类成员方法内部调用的时候，可以使用$this伪变量调用当前对象的属性。
+
+#### 静态：
+* 使用关键字static修饰的，称之为静态方法，静态方法不需要实例化对象，可以通过类名直接调用，操作符为双冒号::。
+* 静态属性与方法可以在不实例化类的情况下调用，直接使用类名::方法名的方式进行调用。静态属性不允许对象使用->操作符调用。静态方法中，$this伪变量不允许使用。可以使用self，parent，static在内部调用静态方法与属性。
+
+#### 构造函数和析构函数：
+* PHP5可以在类中使用__construct()定义一个构造函数，具有构造函数的类，会在每次对象创建的时候调用该函数，因此常用来在对象创建的时候进行一些初始化工作。
+* 在子类中如果定义了__construct则不会调用父类的__construct，如果需要同时调用父类的构造函数，需要使用parent::__construct()显式的调用。
+* PHP5支持析构函数，使用__destruct()进行定义，析构函数指的是当某个对象的所有引用被删除，或者对象被显式的销毁时会执行的函数。当PHP代码执行完毕以后，会自动回收与销毁对象，因此一般情况下不需要显式的去销毁对象。
+
+#### 继承：
+extends
+
+
+#### 魔术方法：
+
+* __tostring(): 当对象被当做string使用时，方法被自动调用
+* __invoke(): 当对象被当做方法使用时，方法被自动调用
+* __call($name,$arguments): 当对象访问不存的方法名称时，方法被自动调用
+* __callStatic($name,$arguments): 当对象访问不存的静态方法名称时，方法被自动调用
+* __get(): 在给不可访问属性赋值时
+* __set($name,$value): 读取不可访问属性值
+* __isset(): 对不可访问属性调用isset()和empty()
+* __unset(): 对不可访问属性调用unset()
+* __clone(): 
+
+#### 重载：
+方法的重载通过__call来实现，当调用不存在的方法的时候，将会转为参数调用__call方法，当调用不存在的静态方法时会使用__callStatic重载。
+
+#### 复制：
+关键字clone来复制一个对象，这时__clone方法会被调用，通过这个魔术方法来设置属性的值。
+
+#### 序列化：
+对象序列化，可以通过serialize方法将对象序列化为字符串，用于存储或者传递数据，然后在需要的时候通过unserialize将字符串反序列化成对象进行使用。
+
+### 正则：
+	preg_match()
+
+### cookie:
+> 将数据存储在客户端
+	setcookie(name,value,time,path)
+	
+### session
+> 将用户的会话数据存储在服务端
+
+* 先执行session_start方法开启session，然后通过全局变量$_SESSION进行session的读写。
+* 默认情况下，session是以文件形式存储在服务器上的，因此当一个页面开启了session之后，会独占这个session文件，这样会导致当前用户的其他并发访问无法执行而等待。可以采用缓存或者数据库的形式存储来解决这个问题。
+* 删除某个session值可以使用PHP的unset函数，删除后就会从全局变量$_SESSION中去除，无法访问。如果要删除所有的session，可以使用session_destroy函数销毁当前session，session_destroy会删除所有数据，但是session_id仍然存在。
+* 值得注意的是，session_destroy并不会立即的销毁全局变量$_SESSION中的值，只有当下次再访问的时候，$_SESSION才为空，因此如果需要立即销毁$_SESSION，可以使用unset函数。
+如果需要同时销毁cookie中的session_id，通常在用户退出的时候可能会用到，则还需要显式的调用setcookie方法删除session_id的cookie值。
+
+> cookie与session：
+
+session可以方便的存取多种数据类型，而cookie只支持字符串类型，同时对于一些安全性比较高的数据，cookie需要进行格式化与加密存储，而session存储在服务端则安全性较高。
+
+## 文件操作：
+file_get_contents('path')、file_put_contents()
+fopen()、fgets()、freads()、fwrite()
+如果只是判断文件存在，使用file_exists()就行，file_exists()不仅可以判断文件是否存在，同时也可以判断目录是否存在，从函数名可以看出，is_file()是确切的判断给定的路径是否是一个文件。
+is_readable()、is_writeable()
+fileowner：获得文件的所有者、filectime：获取文件的创建时间、filemtime：获取文件的修改时间、fileatime：获取文件的访问时间
+删除文件：unlink()、删除文件夹：rmdir()删除文件夹使用rmdir函数，文件夹必须为空，如果不为空或者没有权限则会提示失败。
+
+### 文件引入
+include()、include_once()、require()、require_once() (require阻塞执行，include不会，不加once执行速度更快)
+
+
+
+
+# MVC
+> model view controller
+
+* 控制器的作用是调用模型和视图，将模型产生的数据传递给视图，并让视图去现实。
+* 模型的作用是获取数据并处理返回数据。
+* 视图的作用是将取得的数据进行组织，并展示在客户端。
+
+>单一入口机制
+
+单一入口指在一个web应用程序中，所有的请求都是指向一个脚本文件
+
+# THINK PHP
+
+* common 存放当前项目的公共函数
+* conf 存放当前项目的配置文件
+* lang 存放当前项目的语言包
+* lib 存放当前项目的控制器
+* runtime 存放当前项目运行时的文件
+* tpl 存放当前项目的模版文件
+
+## URL模式 URL_MODEL
+1. 默认模式 pathinfo模式 1
+2. 普通模式 0
+3. 重写模式 2
+4. 兼容模式 3
+
+## thinkphp运行流程
+1. 加载thinkphp文件
+2. 家在核心文件
+3. 加载项目的文件，分析url，调用相关控制器  
+m model 模块控制器  
+a action 方法 action＝页面 
+ 
+		$module = isset($_GET['m'])?$_GET['m']:'index';  
+		$action = isset($_GET['a'])?$_GET['a']:'index';  
+		
+

@@ -1,0 +1,36 @@
+border-radius:左上，右上，右下，左下。
+
+box-shadow: X轴偏移量（+-） Y轴偏移量（+-） [阴影模糊半径] [阴影扩展半径]（+-） [阴影颜色] [投影方式]（默认外投影，内为inset）。
+text-shadow: X-Offset Y-Offset 阴影模糊程度 color;
+
+border-image:url() 70 70 70 70(切割图片宽度，可为px，省略单位为%) 图片延伸方式（round，repeat，stretch）。
+
+color/background-color:rgba(r,g,b,a)。
+
+linear-gradient(目标方向/角度，开始颜色，结束颜色)（起始颜色2到多个）（linear线性渐变，radial径向渐变）。
+
+引入字体@font-face{ font-family:; src:;}。
+
+background-origin ： border-box | padding-box | content-box。
+background-clip ： border-box | padding-box | content-box | no-clip。
+background-size: auto | <长度值>（1或2个指） | <百分比>（1或2个指）  | cover | contain。
+
+multiple backgrounds多重背景。
+
+disabled="disabled"属性。
+readonly="readonly"只读属性。
+（表单属性，后台可以更改，用户界面不可以，也可以不用设置死）
+
+sessionStorage和localStorage，localStorage为永久保存，sessionStorage为临时保存。保存数据，sessionStorage.setItem(key,value)/localStorage.setItem(key,value)。读取数据，sessionStorage.getItem(key) / localStorage.getItem(key)
+键名/键值保存和读取。
+
+webStorage，处理大量存储数据。键名/键值保存和读取。键名为时间戳。
+localStorage.length属性和localStorage.key(index)属性。
+
+nth-child选择器问题，在计算子元素是第几个元素的时候是连同父元素中的所有子元素一起计算的。h2:nth-child(odd)含义不是指“针对div元素中第奇数个h2元素应用”，而是指“当div中的第奇数个元素如果是h2子元素的时候使用”。nth-of-type可以避免。
+
+:before, :after内容可以是文字和图片，video和audio，可以应用任何css样式。
+
+默认情况下使用inline-block类型时并列显示的元素的垂直对齐方式是底部对齐，使用vertical-align进行顶部对齐，且去除元素之间的换行符。
+
+

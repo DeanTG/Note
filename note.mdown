@@ -1,0 +1,29 @@
+移动端交互优化：
+	300ms延迟，区分单双击。
+	增加点击态，优化点击反馈。
+	滚动：
+		全局滚动（滚动条在body节点等顶层节点），局部滚动（滚动条在body下某个dom节点）
+		弹性滚动
+			ios：全局滚动支持
+				局部滚动不支持，body添加-webkit-overflow-scrolling:touch,局部增加.css:{overflow:auto;}
+			andriod:默认不支持弹性滚动，且不支持-webkit-overflow-scrolling
+					建议只全局滚动。
+		滚动出界 （scrollfix）
+
+	滚动优化：translate复用dom 
+
+	input
+		设置合适的type属性，可以定制键盘
+		type="serch"的input外加一层form，在onsubmit阻止默认，可以直接在键盘提交
+		type="text"，pattern="[0-9]*"（只支持这一种）,可以弹出纯数字键盘
+
+	autocapitalize="off",关闭首字母大写
+
+	autocorrect="off",关闭自动纠错
+
+性能优化：
+	减少请求数
+	减小传输体积
+	尽可能的利用缓存
+	缩短关键路径
+	合理安排请求顺序

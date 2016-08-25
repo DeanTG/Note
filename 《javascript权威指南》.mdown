@@ -1,0 +1,68 @@
+
+
+## 类型、值、变量
+### 数字
+* javascript使用了二进制浮点数表示法，故表示十进制分数不准确
+* isNaN()构造函数判断数字
+
+### 日期对象
+Date()构造函数
+
+### RegExp对象
+RegExp()构造函数
+
+### 字符串
+字符串属性(length)和方法
+
+### 全局对象
+* 全局属性：undefined、 Infinity、 NaN
+* 全局函数：isNaN()、 parseInt()、 eval()
+* 构造函数：Date()、 RegExp()、 String()、 Object()、 Array()
+* 全局对象：Math、 JSON
+
+### 包装对象
+> Boolean()、 Number()、 String()
+
+### 对象
+* 对象的复制通过循环来创建副本
+
+### 类型转换
+* 做显示类型转换最简单的方法就是使用Boolean()、 Number()、 String()、 Object()函数
+* 除null和undefined之外的任何值都具有toString()方法
+
+#### Number类转换
+> Number定义的toString()方法可以接收表示转换基数，即转换number的进制
+
+		var n = 1;
+		binaryString = n.toString(2);
+		octalString = "0" + n.toString(8);
+		hexString = "0x" + n.toString(16);
+		
+##### Number类转到字符串保留小数位方法
+* toFixed()：保留小数点后位数
+* toExponential()：保留指数表示法的小数点位数
+* toPrecision()：显示数字位数
+
+Number()转换函数传入字符串会试图转换为一个整型或浮点型的数字直接量
+
+
+
+##### 对象转换：
+> 转换对象函数toString()
+
+* object类.toString()返回［object object］
+* array类.toString()将鼠族元素转换为一个字符串，并在元素之间添加逗号后合并为结果字符串
+* function类.toString()返回函数的实现定义的表示方式
+
+> 转换对象函数valueOf()
+
+### 作用域
+> 局部变量的优先级高于同名的全局变量
+
+#### 函数作用域
+> javascript没有块级作用域(block scope)，取而代之使用函数作用域(function scope)
+
+声明提前(hoisting)
+
+javascript全局变量是全局对象的属性
+
