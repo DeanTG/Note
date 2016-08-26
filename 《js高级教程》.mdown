@@ -156,4 +156,203 @@ function(event){
      }
 }
 
+## 面向对象
+### 理解对象
+> 每个对象都是基于一个引用类型创建的。
+
+#### 属性类型
+
+#### 定义多个属性
+
+#### 读取属性的特性
+
+
+### 创建对象
+#### 工厂模式
+
+		function person(name, age, job){
+			var o = new Object();
+			o.name = name;
+			o.age = age;
+			o.job = job;
+			o.sayName = function(){
+				alert(this.name);
+			}
+			return o;
+		}
+		var person1 = person('Dean', 24, 'coder');
+
+无法解决对象识别问题，即怎样知道一个对象的类型
+
+#### 构造函数模式
+		
+		function Person(name, age, job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.sayName = function(){
+				alert(this.name);
+			}
+		}
+		var person1 = new Person('Dean', 24, 'coder');
+		
+构造函数里的方法都会在实例上重新创建一遍，即
+		
+		function Person(name, age, job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.sayName = sayName();
+			}
+		}
+		function sayName(){
+			alert(this.name);
+		}
+以这种方式创建函数，会导致不同的作用域链和标识符解析，不同实例上的同名函数是不相等的
+
+#### 原型模式
+* 我们创建的每个函数都有一个prototype属性，这个属性是一个指针，指向一个对象，这个对象的用途是包含可以由特定类型的所有实例共享的属性和方法。  
+* 实例里的属性屏蔽了原型上的属性时，只有用 delete 操作符才能完全删除实例的属性。
+* 实例与原型之间的连接是一个指针，而非一个副本，所以对原型的修改，会立即反应在实例上。
+
+		function Person(){}
+		Person.prototype.name = 'Dean';
+		Person.prototype.age = '24';
+		Person.prototype.job = 'coder';
+		Person.prototype.sayName = function(){
+			alert(this.name);
+		};
+		var person1 = new Person();
+		
+> 重写原型对象 
+
+		Person.prototype = {
+			name: 'Dean',
+			age: ,
+			job: ,
+			friends = ['f1',''f2],
+			sayName: function(){}
+		}
+		
+重写后原型对象和默认的prototype对象是两个不同的对象，且会切断现有实例与新原型的联系。  
+
+原型模式无法传递参数，且对于包含引用类型的属性来说，所有实例都指向同一个对象。
+
+#### 组合使用构造函数模式和原型模式
+> 最常用的模式，用来定义引用类型的一种默认模式
+
+		function Person(name, age, job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.friends = ['f1','f2'];
+		}
+		Person.prototype ={
+			constructor: Person,
+			sayName: function(){}			
+		}
+		var person1 = new Person('Dean', 29, 'coder');
+		
+#### 动态原型模式
+把所有信息都封装在了构造函数中，而通过在构造函数中初始化原型（仅在必要的情况下），又保持了同时使用构造函数和原型的优点。
+
+		function Person(name, age, job){
+			this.name = name;
+			this.age = age;
+			this.job = job;
+			this.friends = ['f1','f2'];
+			if(typeof this.sayName != "function"){
+				Person.prototype.sayName = function(){}
+			}
+		}
+
+#### 寄生构造函数模式
+
+		function Person(name, age, job){
+			var o = new Object();
+			o.name = name;
+			o.age = age;
+			o.job = job;
+			o.sayName =function(){}
+			return o;
+		}
+		var person1 = new Person('dean', 24, 'coder')
+
+返回的对象与构造函数或者与构造函数的原型属性之间没有关系
+
+#### 稳妥构造函数模式
+稳妥对象最适合在一些安全的环境中（这些环境中会禁止使用 this 和 new）
+
+		function Person(name, age, job){
+			var o = new Object();
+			o.sayName =function(){}
+			return o;
+		}
+		var person1 = new Person('dean', 24, 'coder')
+
+
+### 继承
+#### 原型链
+* 通过原型链实现继承时，不能使用对象字面量创建原型方法。因为这样做就会重写原型链。  
+* 给原型添加方法的代码一定要放在替换原型的语句之后。
+* 在通过原型来实现继承时，原型实际上会变成另一个类型的实例，原先的实例属性也就顺理成章地变成了现在的原型属性了。
+
+		function SuperType(){
+			this.property = true;
+		}
+		SuperType.prototype.getSuperVal = function(){}
+		
+		function SubType(){
+			this.subProperty =false;
+		}
+		
+		SubType.protype = new SuperType();
+		
+		SubType.Prototype.getSuberVal =function(){}
+
+引用类型在继承的问题。  
+在创建子类型的实例时，不能向超类型的构造函数中传递参数。
+
+#### 借用构造函数
+通过使用 apply()和 call()方法在子类型构造函数的内部调用超类型构造函数。
+
+		
+		function SuperType(name){
+			this.property = true;
+			this.name;
+		}
+		function SubType(){
+			this.subProperty =false;
+			SuperType.call(this,'dean');
+		}
+通过这种方法，SubType的实例会拥有超类型函数属性的副本。  
+
+方法都在构造函数中定义，因此函数复用就无从谈起了。而且，在超类型的原型中定义的方法，对子类型而言也是不可见的，结果所有类型都只能使用构造函数模式。
+
+#### 组合继承
+> JavaScript 中最常用的继承模式  
+
+使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承
+
+		function SuperType(name){
+			this.name = name;
+			this.colors = ["red", "blue", "green"];
+		}
+		SuperType.prototype.sayName = function(){}
+		function SubType(name, age){
+			SuperType.call(this, name);
+			this.age = age;
+		} 
+
+#### 原型式继承
+
+
+
+
+
+
+
+
+
+
   
