@@ -1,0 +1,22 @@
+# jq源码解析
+
+
+## 自执行匿名函数
+
+	(function(window, undefined){})(window)
+	
+参数：  
+
+* window作为参数传递，查找速度快。
+* undefined 不是保留字、关键字，在ie8以下可以被修改，为了防止错误，作为参数传递。
+
+
+
+		jQuery = function(){
+			return new jQuery.fn.init();
+		}
+		jQuery.fn.init.prototype = jQuery.fn
+		
+		jQuery.fn = jQuery.prototype = function(){}
+		
+		
