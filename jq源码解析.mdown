@@ -1,11 +1,11 @@
 # jq源码解析
-
+> 来源：[网易云课堂的妙味课堂视频](http://study.163.com/course/courseMain.htm?courseId=465001)
 
 ## 自执行匿名函数
 
 	(function(window, undefined){})(window)
 	
-参数：  
+参数：
 
 * window作为参数传递，查找速度快。
 * undefined 不是保留字、关键字，在ie8以下可以被修改，为了防止错误，作为参数传递。
