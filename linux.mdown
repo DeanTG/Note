@@ -1,12 +1,30 @@
-区别：
-linux与windows的不同：
+##区别：
+* linux与windows的不同：
 	linux严格区分大小写。
 	linux中所有内容以文件形式保存，包括硬件。
 
-linux不靠扩展名区分文件类型，靠权限区分：
+* linux不靠扩展名区分文件类型，靠权限区分：
 	一般约定，压缩包：.gz .bz2 .tar.bz2 .tgz
 	二进制软件包.rpm
 	网页文件.html .php
 	脚本文件.sh
 	配置文件.conf
+
+## 常用目录
+* /根目录  
+* /bin 命令保存目录（普通用户就可以读取的命令） 
+    根目录下的bin和sbin，usr目录下的bin和sbin目录都是用来保存系统命令。  
+    sbin下是root用户命令目录。
+* /dev 设备文件保存目录
+* /etc 配置文件保存目录
+* /home 普通用户的家目录
+* /lib 系统库保存目录
+* /mnt 系统挂载目录
+* /media 挂载目录
+* /usr 系统软件资源目录
+    /usr/bin ，/usr/sbin 系统命令
+* /var 系统相关文档内容
+
+
+## shell(命令行解释器)
 
