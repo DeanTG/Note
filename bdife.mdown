@@ -1,3 +1,0 @@
-Object对象toString()方法默认返回的是'[object Object]',第二个大写的object是对象的名称。
-
-call、apply调用一个对象的一个方法，以另一个对象替换当前对象。默认的是this。
