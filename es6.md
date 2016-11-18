@@ -205,7 +205,51 @@ end（可选）：到该位置前停止读取数据，默认等于数组长度�
 
 Object.assign方法实行的是浅拷贝
 
+### 属性的可枚举性
+ES6规定，所有Class的原型的方法都是不可枚举的。
+
+### 属性的遍历
+* for...in
+* Object.keys(obj)
+* Object.getOwnPropertyNames(obj)
+* Object.getOwnPropertySymbols(obj)
+* Reflect.ownKeys(obj)
+
+首先遍历所有属性名为数值的属性，按照数字排序。
+其次遍历所有属性名为字符串的属性，按照生成时间排序。
+最后遍历所有属性名为Symbol值的属性，按照生成时间排序。
+
+### __proto__属性，Object.setPrototypeOf()，Object.getPrototypeOf()
+
+### Object.values()，Object.entries() 
+
+### 对象的扩展运算符
+解构赋值的拷贝是浅拷贝，解构赋值不会拷贝继承自原型对象的属性。
+
+### Object.getOwnPropertyDescriptors()
+
 ## Symbol
+> Symbol值不是对象，所以不能添加属性，它是一种类似于字符串的数据类型
+
+Symbol值不能与其他类型的值进行运算，Symbol值可以显式转为字符串，也可以转为布尔值。
+
+由于以Symbol值作为名称的属性，不会被常规方法遍历得到。我们可以利用这个特性，为对象定义一些非私有的、但又希望只用于内部的方法。
+
+### Symbol.for()，Symbol.keyFor()
+我们希望重新使用同一个Symbol值，Symbol.for方法可以做到这一点。
+
+Symbol.for()与Symbol()这两种写法，都会生成新的Symbol。它们的区别是，前者会被登记在全局环境中供搜索，后者不会。
+
+Symbol.for为Symbol值登记的名字，是全局环境的，可以在不同的iframe或service worker中取到同一个值
+
+## Proxy
+
+## Reflect
+
+## Set
+> ES6提供了新的数据结构Set。它类似于数组，但是成员的值都是唯一的，没有重复的值。Set本身是一个构造函数，用来生成Set数据结构。
+
+## Map
 
 
 
