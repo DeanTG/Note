@@ -189,6 +189,8 @@ function(event){
 * 实例里的属性屏蔽了原型上的属性时，只有用 delete 操作符才能完全删除实例的属性。
 * 实例与原型之间的连接是一个指针，而非一个副本，所以对原型的修改，会立即反应在实例上。
 
+e.g
+
 		function Person(){}
 		Person.prototype.name = 'Dean';
 		Person.prototype.age = '24';
@@ -198,7 +200,8 @@ function(event){
 		};
 		var person1 = new Person();
 		
-> 重写原型对象 
+
+重写原型对象 
 
 		Person.prototype = {
 			name: 'Dean',
@@ -227,6 +230,7 @@ function(event){
 		}
 		var person1 = new Person('Dean', 29, 'coder');
 		
+
 #### 动态原型模式
 把所有信息都封装在了构造函数中，而通过在构造函数中初始化原型（仅在必要的情况下），又保持了同时使用构造函数和原型的优点。
 
@@ -270,6 +274,8 @@ function(event){
 * 通过原型链实现继承时，不能使用对象字面量创建原型方法。因为这样做就会重写原型链。  
 * 给原型添加方法的代码一定要放在替换原型的语句之后。
 * 在通过原型来实现继承时，原型实际上会变成另一个类型的实例，原先的实例属性也就顺理成章地变成了现在的原型属性了。
+
+e.g
 
 		function SuperType(){
 			this.property = true;
@@ -319,7 +325,7 @@ function(event){
 		} 
 		SubType.prototype = new SuperType();
 		SubType.prototype.constructor = SubType;
-		SubType.prototype.sayAge = function(){alert(};
+		SubType.prototype.sayAge = function(){alert()};
 		 
 组合继承最大的问题就是无论什么情况下，都会调用两次超类型构造函数，一次是在创建子类型原型的时候，另一次是在子类型构造函数内部。
 
