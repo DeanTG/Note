@@ -251,11 +251,98 @@ Symbol.for为Symbol值登记的名字，是全局环境的，可以在不同的i
 
 ## Map
 
+## Generator 函数
+> 从语法上，首先可以把它理解成，Generator函数是一个状态机，封装了多个内部状态。执行Generator函数会返回一个遍历器对象，代表Generator函数的内部指针。以后，每次调用遍历器对象的next方法，就会返回一个有着value和done两个属性的对象。value属性表示当前的内部状态的值，是yield语句后面那个表达式的值；done属性是一个布尔值，表示是否遍历结束。
 
+## Promise
+> Promise对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称Fulfilled）和Rejected（已失败）。
 
+Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
 
+### then方法
+then方法返回的是一个新的Promise实例（不是原来那个Promise实例）。
 
+then方法可以接受两个回调函数作为参数。第一个回调函数是Promise对象的状态变为Resolved时调用，第二个回调函数是Promise对象的状态变为Reject时调用。
 
+### catch方法
+> Promise.prototype.catch方法是.then(null, rejection)的别名，用于指定发生错误时的回调函数。catch方法返回的还是一个Promise对象
+
+Promise对象的错误具有“冒泡”性质，会一直向后传递，直到被捕获为止。也就是说，错误总是会被下一个catch语句捕获。
+
+### Promise.all()
+Promise.all方法用于将多个Promise实例，包装成一个新的Promise实例。
+
+Promise.all方法的参数可以不是数组，但必须具有Iterator接口，且返回的每个成员都是Promise实例。
+
+### Promise.race()
+Promise.race方法同样是将多个Promise实例，包装成一个新的Promise实例。
+
+### Promise.resolve()
+> 将现有对象转为Promise对象
+
+### Promise.reject() 
+
+## Class
+类的数据类型就是函数，类本身就指向构造函数
+
+由于类的方法都定义在prototype对象上面，所以类的新方法可以添加在prototype对象上面。Object.assign方法可以很方便地一次向类添加多个方法。
+
+类的内部所有定义的方法，都是不可枚举的（non-enumerable）
+
+一个类必须有constructor方法，如果没有显式定义，一个空的constructor方法会被默认添加。
+
+constructor方法默认返回实例对象（即this）。
+
+### 类的实例对象
+实例的属性除非显式定义在其本身（即定义在this对象上），否则都是定义在原型上（即定义在class上）。
+
+### 私有方法
+
+        class Widget {
+          foo (baz) {
+            bar.call(this, baz);
+          }
+          // ...
+        }
+        function bar(baz) {
+          return this.snaf = baz;
+        }
+
+还有一种方法是利用Symbol值的唯一性，将私有方法的名字命名为一个Symbol值。
+
+        const bar = Symbol('bar');
+        const snaf = Symbol('snaf');
+        export default class myClass{
+          // 公有方法
+          foo(baz) {
+            this[bar](baz);
+          }
+          // 私有方法
+          [bar](baz) {
+            return this[snaf] = baz;
+          }
+          // ...
+        };
+
+考虑到未来所有的代码，其实都是运行在模块之中，所以ES6实际上把整个语言升级到了严格模式。
+
+### Class的继承
+super关键字表示父类的构造函数，用来新建父类的this对象。子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工。如果不调用super方法，子类就得不到this对象。
+
+### 类的prototype属性和__proto__属性
+1. 子类的__proto__属性，表示构造函数的继承，总是指向父类。
+2. 子类prototype属性的__proto__属性，表示方法的继承，总是指向父类的prototype属性。
+
+### super关键字
+第一种情况，super作为函数调用时，代表父类的构造函数。
+第二种情况，super作为对象时，指向父类的原型对象。由于super指向父类的原型对象，所以定义在父类实例上的方法或属性，是无法通过super调用的。
+
+### Class的静态方法
+类相当于实例的原型，所有在类中定义的方法，都会被实例继承。如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
+
+父类的静态方法，可以被子类继承。
+
+### Mixin模式的实现
 
 
 
