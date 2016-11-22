@@ -323,7 +323,14 @@ e.g
 			SuperType.call(this, name);
 			this.age = age;
 		} 
-		SubType.prototype = new SuperType();
+		if(!Object.create){
+			Object.create = function(proto){
+				function F(){}
+				F.prototype = proto;
+				return new F;
+			}
+		}
+		SubType.prototype = Object.create(SuperType.prototype);
 		SubType.prototype.constructor = SubType;
 		SubType.prototype.sayAge = function(){alert()};
 		 
