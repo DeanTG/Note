@@ -1,0 +1,30 @@
+
+## 数据绑定：v-model
+
+## 循环：v-for
+
+## 事件：v-on: fn = "" 简写@fn
+
+### 事件对象
+$event
+
+### 事件冒泡、默认事件
+* $event.cancelbubble()、$event.preventDefault()
+* @fn.stop = ""、@fn.prevent = ""
+
+
+## 属性: v-bind: attr = "" 简写:attr
+
+## 模板
+* {{data}}
+* {{*data}} 只绑定一次
+* {{{data}}} html转义
+
+## 过滤器
+{{ data | filter 参数 | }}
+
+## 交互
+* $http.get({})
+* $http.post({})
+* $http.jsonp({})
+* $http({}).then()
