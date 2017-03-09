@@ -137,6 +137,11 @@ this.$http({
 ### slot
 
 
+### vue-router
+
+
+
+
 ## 生命周期
 ### 钩子函数
 * created 实例创建
