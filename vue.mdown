@@ -1,7 +1,10 @@
 
+# vue 1.0
+
 ## 数据绑定：v-model
 
 ## 循环：v-for
+> 重复数据的话添加 track-by='索引'
 
 ## 事件：v-on: fn = "" 简写@fn
 
@@ -23,8 +26,126 @@ $event
 ## 过滤器
 {{ data | filter 参数 | }}
 
-## 交互
-* $http.get({})
-* $http.post({})
-* $http.jsonp({})
-* $http({}).then()
+* filterBy
+* orderBy
+* limitBy
+* debounce 配合事件，延迟执行
+
+### 自定义过滤器
+Vue.filter(name,function(){})
+
+## 交互 vue-resource
+* this.$http.get({})
+* this.$http.post({})
+* this.$http.jsonp({})
+
+this.$http({
+    url: ,
+    data: ,
+    method: get/post/jsonp,
+    jsonp: 'cb'
+}).then()
+
+## 计算属性computed 等价于ng 的$watch
+
+        computed: {
+            a: {
+                get: function(){},
+                set: function(){}
+            }
+        }
+
+## vue实例方法
+* vm.$el 元素
+* vm.$data 数据对象
+* vm.$mount('') 手动挂载对象
+* vm.$options 访问自定义属性
+* vm.$log()
+* vm.$watch(el, funciton(){}, {deep:true}) 监听数据
+
+## 指令
+> 扩展的html语法 
+
+### 自定义指令
+        Vue.directive(name, function(){
+                this.el //原生dom元素
+            })
+
+> 自定义指令必须是v-name, 在自定义函数中不加 “v-”
+
+## 组件
+### 自定义组件
+1. 全局组件
+
+>
+       1.1 var a = Vue.extend({
+           template: '<h1>msg</h1>',
+           data: funciton(){
+            return {
+                msg: "hellow vue"
+            }
+           }
+       })  
+       Vue.component('aaa', a)
+
+       1.2 Vue.component('aaa', {
+            template: '<h1>msg</h1>'
+        })
+
+
+2. 局部组件
+
+>
+       2.1 var a = Vue.extend({
+           template: '<h1>msg</h1>',
+           data: funciton(){
+            return {
+                msg: "hellow vue"
+            }
+           }
+       })  
+       new Vue({
+            el: ,
+            components: {
+                aaa: a
+            }
+        })
+
+        2.2 new Vue({
+            el: ,
+            components: {
+                aaa: {
+                    template: '<h1></h1>'
+                }
+            }
+        })
+
+### 动态组件
+    <component :is="组件名称"></component>
+
+### 组件之间数据通信
+1. 子组件获取父级数据
+
+> 在调用子组件时，<child :m="数据"></child>
+> 在子组件内：
+>       props: ['m'] 或 props:{'m': String(数据类型)}
+
+2. 父级获取子组件数据
+
+> 子组件通过this.$emit(name, data)发送数据，
+
+### slot
+
+
+## 生命周期
+### 钩子函数
+* created 实例创建
+* beforeCompile 编译之前
+* compiled 编译之后
+* ready 插入到文档中
+
+### 销毁阶段 $destroy
+* beforeDestroy 销毁之前
+* destroyed 销毁之后
+
+
