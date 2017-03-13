@@ -1,84 +1,107 @@
 
 # vue 1.0
 
-## 数据绑定：v-model
+## vue实例
+    var vm = new Vue({})
 
-## 循环：v-for
-> 重复数据的话添加 track-by='索引'
+> 在实例化Vue时，需要传入一个选项对象，它可以包含数据、模板、挂载元素、方法、生命周期钩子等选项
 
-## 事件：v-on: fn = "" 简写@fn
+* 每个 Vue 实例都会代理其 data 对象里所有的属性
+* 只有这些被代理的属性是响应的。如果在实例创建之后添加新的属性到实例上，它不会触发视图更新
 
-### 事件对象
-$event
+### vue实例方法
+* vm.$el 元素
+* vm.$data 数据对象
+* vm.$mount('') 手动挂载对象
+* vm.$options 访问自定义属性
+* vm.$log()
 
-### 事件冒泡、默认事件
-* $event.cancelbubble()、$event.preventDefault()
-* @fn.stop = ""、@fn.prevent = ""
+### [生命周期](images/lifecycle.png)
+#### 钩子函数
+* created 实例创建
+* beforeCompile 编译之前
+* compiled 编译之后
+* ready 插入到文档中
+
+#### 销毁阶段 $destroy
+* beforeDestroy 销毁之前
+* destroyed 销毁之后
 
 
-## 属性: v-bind: attr = "" 简写:attr
+## 数据绑定
+### 表单控件绑定：v-model
 
-## 模板
+### 插值
+> 在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。只对可信内容使用 HTML 插值，永不用于用户提交的内容。
+
 * {{data}}
 * {{*data}} 只绑定一次
 * {{{data}}} html转义
 
-## 过滤器
-{{ data | filter 参数 | }}
+### 过滤器
+> {{ data | filter 参数 | }}
 
 * filterBy
 * orderBy
 * limitBy
 * debounce 配合事件，延迟执行
 
-### 自定义过滤器
-Vue.filter(name,function(){})
+#### 自定义过滤器
+        Vue.filter(name,function(){})
 
-## 交互 vue-resource
-* this.$http.get({})
-* this.$http.post({})
-* this.$http.jsonp({})
+### 属性
+> v-bind: attr = "" 简写:attr
 
-this.$http({
-    url: ,
-    data: ,
-    method: get/post/jsonp,
-    jsonp: 'cb'
-}).then()
+### 事件
+> v-on: fn = "" 简写@fn
 
-## 计算属性computed 等价于ng 的$watch
+#### $event
+> 通过$event参数访问原生 DOM 事件
 
-        computed: {
-            a: {
-                get: function(){},
-                set: function(){}
+#### 事件冒泡、默认事件
+* $event.cancelbubble()、$event.preventDefault()
+* @fn.stop = ""、@fn.prevent = ""
+
+## 条件渲染：v-show
+
+## 列表渲染：v-for
+* 在 v-for 块内我们能完全访问父组件作用域内的属性
+* v-for渲染会过滤重复数据，重复数据添加 track-by='索引'，如果没有唯一的键供追踪，可以使用 track-by="$index"
+* 使用 v-for 遍历数组，可以通过 $index 访问数组的索引。使用 v-for 遍历对象时，作用域内还可以访问另外一个特殊变量 $key。
+
+> 也可以给对象的键提供一个别名： 
+``` 
+    <div v-for="(key, val) in object">
+      {{ key }} {{ val }}
+    </div>
+```
+
+
+
+## 计算属性computed （等价于ng 的$watch）
+``` js
+        new Vue({
+            computed: {
+                a: {
+                    get: function(){},
+                    set: function(val){}
+                }
             }
-        }
+        })
+```
 
-## vue实例方法
-* vm.$el 元素
-* vm.$data 数据对象
-* vm.$mount('') 手动挂载对象
-* vm.$options 访问自定义属性
-* vm.$log()
-* vm.$watch(el, funciton(){}, {deep:true}) 监听数据
+## vue的 $watch 方法
+``` js
+    vm.$watch(el, funciton(val){}, {deep:true}) 监听数据
+```
 
-## 指令
-> 扩展的html语法 
 
-### 自定义指令
-        Vue.directive(name, function(){
-                this.el //原生dom元素
-            })
-
-> 自定义指令必须是v-name, 在自定义函数中不加 “v-”
 
 ## 组件
 ### 自定义组件
 1. 全局组件
-
->
-       1.1 var a = Vue.extend({
+``` js
+       1 var a = Vue.extend({
            template: '<h1>msg</h1>',
            data: funciton(){
             return {
@@ -88,15 +111,14 @@ this.$http({
        })  
        Vue.component('aaa', a)
 
-       1.2 Vue.component('aaa', {
+       2 Vue.component('aaa', {
             template: '<h1>msg</h1>'
         })
-
+```
 
 2. 局部组件
-
->
-       2.1 var a = Vue.extend({
+```js
+       1 var a = Vue.extend({
            template: '<h1>msg</h1>',
            data: funciton(){
             return {
@@ -111,7 +133,7 @@ this.$http({
             }
         })
 
-        2.2 new Vue({
+        2 new Vue({
             el: ,
             components: {
                 aaa: {
@@ -119,6 +141,7 @@ this.$http({
                 }
             }
         })
+```
 
 ### 动态组件
     <component :is="组件名称"></component>
@@ -126,9 +149,9 @@ this.$http({
 ### 组件之间数据通信
 1. 子组件获取父级数据
 
-> 在调用子组件时，<child :m="数据"></child>
+> 在调用子组件时，`<child :m="数据"></child>`
 > 在子组件内：
->       props: ['m'] 或 props:{'m': String(数据类型)}
+>       `props: ['m'] 或 props:{'m': String(数据类型)}`
 
 2. 父级获取子组件数据
 
@@ -137,20 +160,44 @@ this.$http({
 ### slot
 
 
-### vue-router
+
+## 指令
+> 扩展的html语法 
+
+### 自定义指令
+        Vue.directive(name, function(){
+            this.el //原生dom元素
+        })
+
+> 自定义指令必须是v-name, 在自定义函数中不加 “v-”
+
+
+## 交互 vue-resource
+* this.$http.get({})
+* this.$http.post({})
+* this.$http.jsonp({})
+
+``` js
+    new Vue({
+        methods: {
+            methodName: funciton(){
+                this.$http({
+                    url: ,
+                    data: ,
+                    method: get/post/jsonp,
+                    jsonp: 'cb'
+                }).then()
+            }
+        }
+    })
+```
+
+
+## vue-router
 
 
 
 
-## 生命周期
-### 钩子函数
-* created 实例创建
-* beforeCompile 编译之前
-* compiled 编译之后
-* ready 插入到文档中
 
-### 销毁阶段 $destroy
-* beforeDestroy 销毁之前
-* destroyed 销毁之后
 
 
