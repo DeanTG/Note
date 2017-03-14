@@ -18,6 +18,7 @@
 
 ### [生命周期](images/lifecycle.png)
 #### 钩子函数
+* init
 * created 实例创建
 * beforeCompile 编译之前
 * compiled 编译之后
@@ -196,8 +197,83 @@
 ## vue-router
 
 
+# vue 2.0
+
+## 组件定义方式
+
+* template必须有一个根元素
 
 
+## 生命周期
+* beforeCreate 实例刚创建没有属性
+* created 属性等已绑定
+* beforeMount 模版编译之前
+* mounted 
+* beforeUpdate
+* updated
+* beforeDestroy
+* destroyed
 
+
+## 列表渲染：v-for    
+* 默认可以添加重复数据
+* 必须显示的定义index ` <li v-for="(val,index) in list"></li> `
+* ` track-by="索引" 变成了 :key="index `
+
+
+## 过滤器
+* 删除全部内置过滤器，推荐使用lodash
+* 自定义过滤器传参方式改变 ` {{data | filterName('参数1','参数2')}} `
+
+
+## 组件通信
+
+## transition
+
+## router
+``` HTML
+    <router-link to="routerName"></router-link>
+    <router-view>
+```
+``` js
+    //声明路由组件
+    var a = {
+        template: ""
+    }
+    //配置路由
+    var routes = [
+        {path: "", component: a},
+        {path: "*", redirect: "",} //重定向
+    ]
+    //生成路由
+    router = new VueRouter({routes: routes})
+
+    //挂在到vue
+    new Vue({
+        el: "",
+        router: router
+    })
+
+```
+
+### 路由嵌套
+``` js
+    var routes = [
+        {
+            path: "",
+            component: a,
+            children: [
+                {path: "", component: ""}
+            ]
+        }
+    ]
+```
+
+### 路由实例方法
+``` js
+    var router = new VueRouter({});
+    1 router.push();
+    2 router.replace()
+```
 
 
