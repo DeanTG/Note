@@ -233,7 +233,7 @@
 ## router
 ``` HTML
     <router-link to="routerName"></router-link>
-    <router-view>
+    <router-view></router-view>
 ```
 ``` js
     //声明路由组件
@@ -243,7 +243,7 @@
     //配置路由
     var routes = [
         {path: "", component: a},
-        {path: "*", redirect: "",} //重定向
+        {path: "*", redirect: "",} //重定向,使用＊重定向必须在所有已有路由分配之后
     ]
     //生成路由
     router = new VueRouter({routes: routes})
@@ -273,7 +273,67 @@
 ``` js
     var router = new VueRouter({});
     1 router.push();
-    2 router.replace()
+    2 router.replace();
+    3 watch: { //监听路由变化
+        $route(to, from){
+            //to.path 、 from.path
+        }
+    }
+```
+
+## [Vuex](images/vuex.png)
+> 集中管理数据 
+
+### vuex提供的两个方法
+* mapGetters 获取数据
+* mapActions 管理所有事件
+
+``` js
+    // 首先挂载到vue上 main.js
+    import store from 'store.js'
+    new Vue({
+        store
+    })
+
+    // 在组件内通过mapGetters和mapActions获取数据和管理事件 App.vue
+    import {mapGetters, mapActions} from 'vuex'
+    export default {
+        computed: mapGetters[
+            'count'
+        ],
+        methods: mapActions[ // 可以用this.$store.dispatch('eventName')代替
+            'eventName'
+        ]
+    }
+
+    // 在store.js里接受事件和处理数据
+    import vue和vuex
+    
+    const actions = { //接收并处理事件
+        eventName: ({commit})=>{
+            commit('eventName')
+        }
+    }
+
+    var state = {
+        count: 0
+    }
+    const mutations = { //处理数据状态变化
+        eventName(state){
+            state.count ++;
+        }
+    }
+    const getters = { 
+        count(state){
+            return state.count;
+        }
+    }
+    export default new Vuex.Store({
+        actions,
+        state,
+        mutations,
+        getters
+    })
 ```
 
 
