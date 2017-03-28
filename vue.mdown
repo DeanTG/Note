@@ -154,9 +154,25 @@
 > 在子组件内：
 >       `props: ['m'] 或 props:{'m': String(数据类型)}`
 
+子组件可以通过sync同步更改父组件数据
+
 2. 父级获取子组件数据
 
-> 子组件通过this.$emit(name, data)发送数据，
+> 子组件通过this.$emit(name, data)发送数据，父组件通过子组件的事件绑定获得数据
+
+```
+    //子组件
+    this.$emit(name, data);
+
+    父组件
+    <parent>
+        <children @name = "getData"></children>
+    </parent>
+
+    getData(data){
+        data //传递过来的子组件数据
+    }
+```
 
 ### slot
 
@@ -199,10 +215,23 @@
 
 # vue 2.0
 
-## 组件定义方式
-
+## 组件
+### 定义方式
 * template必须有一个根元素
 
+### 组件通信
+1. 子组件获取父级数据
+
+> 现在子组件不能直接修改父组件传递过来的数据
+
+### 单一事件管理组件间数据通信
+```
+    var Event = new Vue();
+
+    Event.$emit('dataName', data);
+
+    Event.$on('dataName', funciton(){})
+```
 
 ## 生命周期
 * beforeCreate 实例刚创建没有属性
@@ -226,7 +255,6 @@
 * 自定义过滤器传参方式改变 ` {{data | filterName('参数1','参数2')}} `
 
 
-## 组件通信
 
 ## transition
 
